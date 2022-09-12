@@ -1,4 +1,5 @@
 import React, { useRef, useState } from 'react';
+import * as yup from 'yup';
 
 function Auth(props) {
     const [usertype, setuser] = useState('login');
@@ -24,6 +25,27 @@ function Auth(props) {
         nameref.current.focus();
         nameref.current.style.border = '2px solid skyblue'
     }
+
+    let authschema;
+
+    if (usertype === 'login' && reset === false) {
+        authschema = {
+            email: yup.string().required("please enter email.").email("please enter valid email."),
+            password: yup.string().required("please enter password.").min(8,'password must be 8 chracters long.'),
+        }
+    } else if (usertype === 'signup' && reset === false) {
+        authschema = {
+            name: yup.string().required("please enter yor name."),
+            email: yup.string().required("please enter email.").email("please enter valid email."),
+            password: yup.string().required("please enter password."),
+        }
+    } else if (reset === true) {
+        authschema = {
+            email: yup.string().required("please enter email.").email("please enter valid email."),
+        }
+    }
+
+    let schema = yup.object().shape(authschema);
 
     return (
         <div>
@@ -72,10 +94,10 @@ function Auth(props) {
                             reset === true ?
                                 <div className="text-center"><button type="submit">Submit</button></div>
                                 :
-                                usertype === 'login' ? <div className="text-center"><button type="submit" onClick={() => { handlogin() }}>login</button></div> : <div className="text-center"><button type="submit" onClick={()=>handsignup()}>Signup</button></div>
+                                usertype === 'login' ? <div className="text-center"><button type="submit" onClick={() => { handlogin() }}>login</button></div> : <div className="text-center"><button type="submit" onClick={() => handsignup()}>Signup</button></div>
                         }
 
-                        {usertype === 'login' ? <span>Creat a new account: <button className='btn' onClick={() => { setreset(false); setuser('Sigup')}}>Signup</button></span> : <span>Alrady have an account: <button className='btn' onClick={() => setuser('login')}>Login</button></span>}
+                        {usertype === 'login' ? <span>Creat a new account: <button className='btn' onClick={() => { setreset(false); setuser('Sigup') }}>Signup</button></span> : <span>Alrady have an account: <button className='btn' onClick={() => setuser('login')}>Login</button></span>}
                         <br />
                         <br />
                         <span>Forgot password<button className='btn' onClick={() => setreset(true)}>Click Hear</button></span>
