@@ -1,6 +1,6 @@
 import React from 'react';
 import * as yup from 'yup';
-import { Form, Formik, useFormik } from 'formik';
+import {Form, Formik, useFormik } from 'formik';
 
 function Contect(props) {
   let authschema={}, intval={};
@@ -62,7 +62,7 @@ function Contect(props) {
             </div>
             <Formik values={formik} onSubmit={handleSubmit}>
                 <div className="col-lg-8 mt-5 mt-lg-0">
-                  <form action method="post" role="form" className="php-email-form">
+                  <form action method="post" className="php-email-form">
                     <div className="row">
                       <div className="col-md-6 form-group">
                         <input type="text"
@@ -96,7 +96,7 @@ function Contect(props) {
                         name="message"
                         rows={5}
                         placeholder="Message" required defaultValue={""} onChange={handleChange} />
-                      <p>{errors. message}</p>
+                      <p>{errors.message}</p>
                     </div>
                     <div className="my-3">
                       <div className="loading">Loading</div>
