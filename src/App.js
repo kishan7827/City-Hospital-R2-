@@ -10,11 +10,13 @@ import Contect from './container/contact/Contect';
 import Appointment from './container/appointment/Appointment';
 import Auth from './container/auth/Auth';
 import Medicens from './container/Medicens/Medicens';
+import Layout from './admin/components/Layout';
+import MedisinesAdmin from './admin/container/MedisinesAdmin';
 
 function App() {
   return (
     <>
-      <Header/>
+      {/* <Header/>
       <Switch>
         <Route path={'/home'} exact component={Home} />
         <Route path={'/about'} exact component={About} />
@@ -25,7 +27,12 @@ function App() {
         <Route path={'/appointment'} exact component={Appointment} />
         <Route path={'/login'} exact component={Auth} />
       </Switch>
-      <Footer/>
+      <Footer/> */}
+      <Layout>
+        <Switch>
+          <Route path={'/medisines_admin'} exact component={MedisinesAdmin} />
+        </Switch>
+      </Layout>
     </>
   );
 }
