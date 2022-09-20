@@ -7,7 +7,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 
-function MedisinesAdmin(props) {
+function DoctorAdmin(props) {
     const [open, setOpen] = React.useState(false);
 
     const handleClickOpen = () => {
@@ -17,57 +17,46 @@ function MedisinesAdmin(props) {
     const handleClose = () => {
         setOpen(false);
     };
+
     return (
         <div>
-            <h1>Medicines</h1>
-
+            <h1>Doctors</h1>
             <div>
                 <Button variant="outlined" onClick={handleClickOpen}>
-                   Add Medicines
+                   Add Doctors Details
                 </Button>
                 <Dialog open={open} onClose={handleClose}>
-                    <DialogTitle>Add Medicines</DialogTitle>
+                    <DialogTitle> Add Doctors Details</DialogTitle>
                     <DialogContent>
                         <TextField
                             autoFocus
                             margin="dense"
-                            id="name"
-                            name='name'
-                            label="Medicines Name"
+                            id="doctor name"
+                            name='doctor name'
+                            label="Doctor Name"
                             fullWidth
                             variant="standard"
                         />
                         <TextField
                             autoFocus
                             margin="dense"
-                            id="price"
-                            name='price'
-                            label="Medicines Price"
+                            id="Doctor age"
+                            label="Doctor Age"
                             fullWidth
                             variant="standard"
                         />
                         <TextField
                             autoFocus
                             margin="dense"
-                            id="qty"
-                            name='qty'
-                            label="Medicines Quantity"
-                            fullWidth
-                            variant="standard"
-                        />
-                        <TextField
-                            autoFocus
-                            margin="dense"
-                            id="expiry"
-                            name='expiry'
-                            label="Medicines Expiry"
+                            id="Doctor experience"
+                            label="Doctor Experience"
                             fullWidth
                             variant="standard"
                         />
                     </DialogContent>
                     <DialogActions>
                         <Button onClick={handleClose}>Cancel</Button>
-                        <Button onClick={handleClose}>Add</Button>
+                        <Button onClick={handleClose}>Add Details</Button>
                     </DialogActions>
                 </Dialog>
             </div>
@@ -75,4 +64,4 @@ function MedisinesAdmin(props) {
     );
 }
 
-export default MedisinesAdmin;
+export default DoctorAdmin;

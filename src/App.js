@@ -12,6 +12,7 @@ import Auth from './container/auth/Auth';
 import Medicens from './container/Medicens/Medicens';
 import Layout from './admin/components/Layout';
 import MedisinesAdmin from './admin/container/MedisinesAdmin';
+import DoctorAdmin from './admin/container/DoctorAdmin';
 
 function App() {
   return (
@@ -31,6 +32,7 @@ function App() {
       <Layout>
         <Switch>
           <Route path={'/medisines_admin'} exact component={MedisinesAdmin} />
+          <Route path={'/doctors_admin'} exact component={DoctorAdmin} />
         </Switch>
       </Layout>
     </>

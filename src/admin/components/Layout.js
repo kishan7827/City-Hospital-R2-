@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { NavLink } from "react-router-dom";
 import { styled, useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import MuiDrawer from '@mui/material/Drawer';
@@ -19,6 +20,7 @@ import ListItemText from '@mui/material/ListItemText';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
 import LocalHospitalIcon from '@mui/icons-material/LocalHospital';
+import VaccinesIcon from '@mui/icons-material/Vaccines';
 
 const drawerWidth = 240;
 
@@ -87,7 +89,7 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
   }),
 );
 
-export default function Layout() {
+export default function Layout({children}) {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
 
@@ -99,7 +101,10 @@ export default function Layout() {
     setOpen(false);
   };
 
-  let dispalylist = [{name:'Medisines', icon:<LocalHospitalIcon/>, to:'/medisines_admin'}];
+  let dispalylist = [
+    {name:'Medisines', icon:<LocalHospitalIcon />, to:'/medisines_admin'},
+  {name:'Doctor', icon:<VaccinesIcon />, to:'/doctors_admin'}
+];
 
   return (
     <Box sx={{ display: 'flex' }}>
@@ -132,7 +137,7 @@ export default function Layout() {
         <Divider />
         <List>
           {dispalylist.map((text, index) => (
-            <ListItem key={index} disablePadding sx={{ display: 'block' }}>
+            <ListItem component={NavLink} to={text.to} key={index} disablePadding sx={{ display: 'block' }}>
               <ListItemButton
                 sx={{
                   minHeight: 48,
@@ -156,6 +161,8 @@ export default function Layout() {
         </List>
       </Drawer>
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
+      <DrawerHeader/>
+      {children}
       </Box>
     </Box>
   );
