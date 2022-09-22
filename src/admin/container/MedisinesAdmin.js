@@ -43,7 +43,19 @@ function MedisinesAdmin(props) {
     };
 
     const handleadd = (values) => {
-        console.log(values);
+        let localdata = JSON.parse(localStorage.getItem("medicines"))
+        
+        let id = Math.floor(Math.random()*1000)
+
+        let data = {id: id, ...values}
+
+        if (localdata === null) {
+            localStorage.setItem("medicines",JSON.stringify([data]))
+        }else {
+            localdata.push(data)
+            localStorage.setItem("medicines",JSON.stringify(localdata))   
+        }
+
         setOpen(false);
         formik.resetForm();
     }
