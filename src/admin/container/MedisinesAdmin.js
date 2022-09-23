@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Dialog from '@mui/material/Dialog';
@@ -8,9 +8,40 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import * as yup from 'yup';
 import { Form, Formik, useFormik } from 'formik';
+import { DataGrid } from '@mui/x-data-grid';
 
 function MedisinesAdmin(props) {
     const [open, setOpen] = React.useState(false);
+    const [data,setdata] = useState([])
+
+    useEffect(() => {
+        getdata();
+    }
+    ,[]);
+
+    const getdata = () => {
+        let localdata = JSON.parse(localStorage.getItem("medicines"))
+        setdata(localdata);
+    }    
+
+    const columns = [
+        { field: 'id', headerName: 'ID', width: 70 },
+        { field: 'name', headerName: 'Name', width: 130 },
+        { field: 'price', headerName: 'Price', width: 130 },
+        {
+            field: 'qty',
+            headerName: 'Quantity',
+            type: 'number',
+            width: 90,
+        },
+        {
+            field: 'expiry',
+            headerName: 'Expiry',
+            // description: 'This column has a value getter and is not sortable.',
+            // sortable: false,
+            width: 130,
+         },
+    ];
 
     let schema = yup.object().shape({
         name: yup.string().required('please enter your name'),
@@ -43,17 +74,17 @@ function MedisinesAdmin(props) {
     };
 
     const handleadd = (values) => {
-        let localdata = JSON.parse(localStorage.getItem("medicines"))
-        
-        let id = Math.floor(Math.random()*1000)
+       let localdata = JSON.parse(localStorage.getItem("medicines"))
 
-        let data = {id: id, ...values}
+        let id = Math.floor(Math.random() * 1000)
+
+        let data = { id: id, ...values }
 
         if (localdata === null) {
-            localStorage.setItem("medicines",JSON.stringify([data]))
-        }else {
-            localdata.push(data)
-            localStorage.setItem("medicines",JSON.stringify(localdata))   
+            localStorage.setItem("medicines", JSON.stringify([data]))
+        } else {
+            localdata.push(data);
+            localStorage.setItem("medicines", JSON.stringify(localdata))
         }
 
         setOpen(false);
@@ -68,6 +99,16 @@ function MedisinesAdmin(props) {
                 <Button variant="outlined" onClick={handleClickOpen}>
                     Add Medicines
                 </Button>
+                <br/>
+                <div style={{ height: 400, width: '100%' }}>
+                    <DataGrid
+                        rows={data}
+                        columns={columns}
+                        pageSize={5}
+                        rowsPerPageOptions={[5]}
+                        checkboxSelection
+                    />
+                </div>
                 <Dialog open={open} onClose={handleClose}>
                     <DialogTitle>Add Medicines</DialogTitle>
                     <Formik values={formik}>
