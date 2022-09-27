@@ -9,20 +9,24 @@ import DialogTitle from '@mui/material/DialogTitle';
 import * as yup from 'yup';
 import { Form, Formik, useFormik } from 'formik';
 import { DataGrid } from '@mui/x-data-grid';
+import IconButton from '@mui/material/IconButton';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 function MedisinesAdmin(props) {
     const [open, setOpen] = React.useState(false);
-    const [data,setdata] = useState([])
+    const [dopen, setdOpen] = React.useState(false);
+    const [did, setdid] = React.useState(false);
+    const [data, setdata] = useState([])
 
     useEffect(() => {
         getdata();
     }
-    ,[]);
+        , []);
 
     const getdata = () => {
         let localdata = JSON.parse(localStorage.getItem("medicines"))
         setdata(localdata);
-    }    
+    }
 
     const columns = [
         { field: 'id', headerName: 'ID', width: 70 },
@@ -40,8 +44,37 @@ function MedisinesAdmin(props) {
             // description: 'This column has a value getter and is not sortable.',
             // sortable: false,
             width: 130,
-         },
+        },
+        {
+            field: '',
+            headerName: 'Action',
+            width: 90,
+            renderCell: (params) => (
+                <IconButton aria-label="delete" onClick={()=>{handleDelete(params.row)}}>
+                    <DeleteIcon />
+                </IconButton>
+            )
+
+        },
     ];
+
+    const handleDelete = (data) => {
+        setdOpen(true)
+        setdid(data.id)
+    }
+
+    const handleDeleteData = () => {
+        let localdata = JSON.parse(localStorage.getItem("medicines"))
+
+        let Ddata = localdata.filter((l) => l.id !== did)
+
+        localStorage.setItem("medicines",JSON.stringify(Ddata))
+
+        setdata(Ddata)
+
+        setdOpen(false)
+        console.log(Ddata);
+    }
 
     let schema = yup.object().shape({
         name: yup.string().required('please enter your name'),
@@ -74,7 +107,7 @@ function MedisinesAdmin(props) {
     };
 
     const handleadd = (values) => {
-       let localdata = JSON.parse(localStorage.getItem("medicines"))
+        let localdata = JSON.parse(localStorage.getItem("medicines"))
 
         let id = Math.floor(Math.random() * 1000)
 
@@ -99,7 +132,7 @@ function MedisinesAdmin(props) {
                 <Button variant="outlined" onClick={handleClickOpen}>
                     Add Medicines
                 </Button>
-                <br/>
+                <br />
                 <div style={{ height: 400, width: '100%' }}>
                     <DataGrid
                         rows={data}
@@ -165,6 +198,17 @@ function MedisinesAdmin(props) {
                             </DialogContent>
                         </Form>
                     </Formik>
+                </Dialog>
+                <Dialog open={dopen} onClose={handleClose}>
+                    <DialogTitle>Delete Medicines</DialogTitle>
+                    <DialogContent>
+                        Are You Sure To Delete?
+
+                        <DialogActions>
+                            <Button onClick={handleClose}>No</Button>
+                            <Button onClick={() => handleDeleteData()}>Yes</Button>
+                        </DialogActions>
+                    </DialogContent>
                 </Dialog>
             </div>
         </div>

@@ -9,9 +9,13 @@ import DialogTitle from '@mui/material/DialogTitle';
 import * as yup from 'yup';
 import { Form, Formik, useFormik } from 'formik';
 import { DataGrid } from '@mui/x-data-grid';
+import IconButton from '@mui/material/IconButton';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 function DoctorAdmin(props) {
     const [open, setOpen] = React.useState(false);
+    const [dopen, setdOpen] = React.useState(false);
+    const [did, setdid] = React.useState(false);
     const [data,setdata] = useState([])
 
     useEffect(() => {
@@ -23,6 +27,24 @@ function DoctorAdmin(props) {
         setdata(localdata);
     }
 
+    const handleDelete = (data) => {
+        setdOpen(true)
+        setdid(data.id)
+    }
+
+    const handleDeleteData = () => {
+        let localdata = JSON.parse(localStorage.getItem("DoctorDetails"))
+
+        let Ddata = localdata.filter((l) => l.id !== did)
+
+        localStorage.setItem("DoctorDetails",JSON.stringify(Ddata))
+
+        setdata(Ddata)
+
+        setdOpen(false)
+        console.log(Ddata);
+    }
+
     const columns = [
         { field: 'id', headerName: 'ID', width: 70 },
         { field: 'doctorname', headerName: 'DoctorName', width: 130 },
@@ -32,6 +54,16 @@ function DoctorAdmin(props) {
             headerName: 'DoctorExperience',
             type: 'number',
             width: 90,
+        },
+        {
+            field: '',
+            headerName: 'Action',
+            width: 90,
+            renderCell: (params)=>(
+                <IconButton aria-label="delete" onClick={() => handleDelete(params.row)}>
+                    <DeleteIcon />
+                </IconButton>
+            )
         },
     ];
 
@@ -141,6 +173,17 @@ function DoctorAdmin(props) {
                             </DialogContent>
                         </Form>
                     </Formik>
+                </Dialog>
+                <Dialog open={dopen} onClose={handleClose}>
+                    <DialogTitle>Delete Medicines</DialogTitle>
+                    <DialogContent>
+                        Are You Sure To Delete?
+
+                        <DialogActions>
+                            <Button onClick={handleClose}>No</Button>
+                            <Button onClick={() => handleDeleteData()}>Yes</Button>
+                        </DialogActions>
+                    </DialogContent>
                 </Dialog>
             </div>
         </div>
