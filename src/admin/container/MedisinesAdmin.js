@@ -11,12 +11,14 @@ import { Form, Formik, useFormik } from 'formik';
 import { DataGrid } from '@mui/x-data-grid';
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
 
 function MedisinesAdmin(props) {
     const [open, setOpen] = React.useState(false);
     const [dopen, setdOpen] = React.useState(false);
     const [did, setdid] = React.useState(false);
     const [data, setdata] = useState([])
+    const [update,setupdate] = useState(false)
 
     useEffect(() => {
         getdata();
@@ -50,13 +52,25 @@ function MedisinesAdmin(props) {
             headerName: 'Action',
             width: 90,
             renderCell: (params) => (
-                <IconButton aria-label="delete" onClick={()=>{handleDelete(params.row)}}>
-                    <DeleteIcon />
-                </IconButton>
+                <>
+                    <IconButton aria-label="delete" onClick={() => { handleDelete(params.row) }}>
+                        <DeleteIcon />
+                    </IconButton>
+                    <IconButton aria-label="edit" onClick={() => { handleEdit(params.row) }}>
+                        <EditIcon />
+                    </IconButton>
+                </>
             )
 
         },
     ];
+
+    const handleEdit = (data) => {
+        setOpen(true)
+        console.log(data);
+        setupdate(true)
+        formik.setValues(data)
+    }
 
     const handleDelete = (data) => {
         setdOpen(true)
@@ -68,7 +82,7 @@ function MedisinesAdmin(props) {
 
         let Ddata = localdata.filter((l) => l.id !== did)
 
-        localStorage.setItem("medicines",JSON.stringify(Ddata))
+        localStorage.setItem("medicines", JSON.stringify(Ddata))
 
         setdata(Ddata)
 
@@ -96,10 +110,12 @@ function MedisinesAdmin(props) {
         },
     });
 
-    const { handleBlur, handleChange, handleSubmit, errors, touched } = formik;
+    const { handleBlur, handleChange, handleSubmit, errors, touched, values } = formik;
 
     const handleClickOpen = () => {
         setOpen(true);
+        formik.resetForm()
+        setupdate(false)
     };
 
     const handleClose = () => {
@@ -154,6 +170,7 @@ function MedisinesAdmin(props) {
                                     label="Medicines Name"
                                     fullWidth
                                     variant="standard"
+                                    value={values.name}
                                     onChange={handleChange}
                                     onBlur={handleBlur}
                                 />
@@ -165,6 +182,7 @@ function MedisinesAdmin(props) {
                                     label="Medicines Price"
                                     fullWidth
                                     variant="standard"
+                                    value={values.price}
                                     onChange={handleChange}
                                     onBlur={handleBlur}
                                 />
@@ -176,6 +194,7 @@ function MedisinesAdmin(props) {
                                     label="Medicines Quantity"
                                     fullWidth
                                     variant="standard"
+                                    value={values.qty}
                                     onChange={handleChange}
                                     onBlur={handleBlur}
                                 />
@@ -187,13 +206,14 @@ function MedisinesAdmin(props) {
                                     label="Medicines Expiry"
                                     fullWidth
                                     variant="standard"
+                                    value={values.expiry}
                                     onChange={handleChange}
                                     onBlur={handleBlur}
                                 />
                                 <p>{errors.expiry && touched.expiry ? errors.expiry : ''}</p>
                                 <DialogActions>
                                     <Button onClick={handleClose}>Cancel</Button>
-                                    <Button type='submit'>Add</Button>
+                                    <Button type='submit'>{update ? "Update" : "ADD"}</Button>
                                 </DialogActions>
                             </DialogContent>
                         </Form>

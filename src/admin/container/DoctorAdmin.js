@@ -7,20 +7,22 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import * as yup from 'yup';
-import { Form, Formik, useFormik } from 'formik';
+import { Form, Formik, FormikConsumer, useFormik } from 'formik';
 import { DataGrid } from '@mui/x-data-grid';
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
 
 function DoctorAdmin(props) {
     const [open, setOpen] = React.useState(false);
     const [dopen, setdOpen] = React.useState(false);
     const [did, setdid] = React.useState(false);
-    const [data,setdata] = useState([])
+    const [data, setdata] = useState([])
+    const [update,setupdate] = useState(false)
 
     useEffect(() => {
         getdata();
-    },[])
+    }, [])
 
     const getdata = () => {
         let localdata = JSON.parse(localStorage.getItem("DoctorDetails"))
@@ -37,12 +39,18 @@ function DoctorAdmin(props) {
 
         let Ddata = localdata.filter((l) => l.id !== did)
 
-        localStorage.setItem("DoctorDetails",JSON.stringify(Ddata))
+        localStorage.setItem("DoctorDetails", JSON.stringify(Ddata))
 
         setdata(Ddata)
 
         setdOpen(false)
         console.log(Ddata);
+    }
+
+    const handleEdit = (data) => {
+        setOpen(true)
+        setupdate(true)
+        formik.setValues(data)
     }
 
     const columns = [
@@ -59,10 +67,15 @@ function DoctorAdmin(props) {
             field: '',
             headerName: 'Action',
             width: 90,
-            renderCell: (params)=>(
-                <IconButton aria-label="delete" onClick={() => handleDelete(params.row)}>
-                    <DeleteIcon />
-                </IconButton>
+            renderCell: (params) => (
+                <>
+                    <IconButton aria-label="delete" onClick={() => handleDelete(params.row)}>
+                        <DeleteIcon />
+                    </IconButton>
+                    <IconButton aria-label="Edit" onClick={() => handleEdit(params.row)}>
+                        <EditIcon />
+                    </IconButton>
+                </>
             )
         },
     ];
@@ -85,10 +98,12 @@ function DoctorAdmin(props) {
         },
     });
 
-    const { handleBlur, handleChange, handleSubmit, errors, touched } = formik;
+    const { handleBlur, handleChange, handleSubmit, errors, touched, values } = formik;
 
     const handleClickOpen = () => {
         setOpen(true);
+        setupdate(false)
+        formik.resetForm()
     };
 
     const handleClose = () => {
@@ -140,6 +155,7 @@ function DoctorAdmin(props) {
                                     label="Doctor Name"
                                     fullWidth
                                     variant="standard"
+                                    value={values.doctorname}
                                     onChange={handleChange}
                                     onBlur={handleBlur}
                                 />
@@ -151,6 +167,7 @@ function DoctorAdmin(props) {
                                     label="Doctor Age"
                                     fullWidth
                                     variant="standard"
+                                    value={values.doctorage}
                                     onChange={handleChange}
                                     onBlur={handleBlur}
                                 />
@@ -162,13 +179,14 @@ function DoctorAdmin(props) {
                                     label="Doctor Experience"
                                     fullWidth
                                     variant="standard"
+                                    value={values.doctorexperience}
                                     onChange={handleChange}
                                     onBlur={handleBlur}
                                 />
                                 <p>{errors.doctorexperience && touched.doctorexperience ? errors.doctorexperience : ''}</p>
                                 <DialogActions>
                                     <Button onClick={handleClose}>Cancel</Button>
-                                    <Button type='submit'>Add Details</Button>
+                                    <Button type='submit'>{update ? "Update Details" : "Add Details" }</Button>
                                 </DialogActions>
                             </DialogContent>
                         </Form>
