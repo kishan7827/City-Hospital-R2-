@@ -26,7 +26,9 @@ function DoctorAdmin(props) {
 
     const getdata = () => {
         let localdata = JSON.parse(localStorage.getItem("DoctorDetails"))
-        setdata(localdata);
+        if (localdata !== null) {
+            setdata(localdata);
+        }
     }
 
     const handleDelete = (data) => {
@@ -80,6 +82,21 @@ function DoctorAdmin(props) {
         },
     ];
 
+    const handleUpdate = (values) => {
+        let localdata = JSON.parse(localStorage.getItem("DoctorDetails"))
+
+        let uData = localdata.map( (l) => {
+            if (l.id === values.id) {
+                return values;
+            }else {
+                return l;
+            }
+        })
+        setdata(uData)
+        localStorage.setItem("DoctorDetails",JSON.stringify(uData))
+        handleClose()
+    }
+
     let schema = yup.object().shape({
         doctorname: yup.string().required('please enter name'),
         doctorage: yup.string().required('please enetr age'),
@@ -94,7 +111,11 @@ function DoctorAdmin(props) {
         },
         validationSchema: schema,
         onSubmit: values => {
-            handleadddetails(values);
+            if (update) {
+                handleUpdate(values);
+            }else {
+                handleadddetails(values);
+            }
         },
     });
 
@@ -108,6 +129,9 @@ function DoctorAdmin(props) {
 
     const handleClose = () => {
         setOpen(false);
+        setdOpen(false)
+        setupdate(false)
+        formik.resetForm()
     };
 
     const handleadddetails = (values) => {
@@ -125,6 +149,7 @@ function DoctorAdmin(props) {
         }
         setOpen(false);
         formik.resetForm();
+        getdata()
     }
 
     return (

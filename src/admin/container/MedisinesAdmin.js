@@ -18,7 +18,7 @@ function MedisinesAdmin(props) {
     const [dopen, setdOpen] = React.useState(false);
     const [did, setdid] = React.useState(false);
     const [data, setdata] = useState([])
-    const [update,setupdate] = useState(false)
+    const [update, setupdate] = useState(false)
 
     useEffect(() => {
         getdata();
@@ -27,7 +27,10 @@ function MedisinesAdmin(props) {
 
     const getdata = () => {
         let localdata = JSON.parse(localStorage.getItem("medicines"))
-        setdata(localdata);
+
+        if (localdata !== null) {
+            setdata(localdata);
+        }
     }
 
     const columns = [
@@ -90,6 +93,23 @@ function MedisinesAdmin(props) {
         console.log(Ddata);
     }
 
+    const handleUpdate = (values) => {
+        let localdata = JSON.parse(localStorage.getItem("medicines"))
+
+        let uData = localdata.map((l) => {
+            if (l.id === values.id) {
+                return values;
+            }else {
+                return l;
+            }
+        }) 
+
+        setdata(uData)
+        localStorage.setItem("medicines",JSON.stringify(uData))
+
+        handleClose()
+    }
+
     let schema = yup.object().shape({
         name: yup.string().required('please enter your name'),
         price: yup.string().required('please enter price'),
@@ -106,7 +126,11 @@ function MedisinesAdmin(props) {
         },
         validationSchema: schema,
         onSubmit: values => {
-            handleadd(values)
+            if (update) {
+                handleUpdate(values)
+            } else {
+                handleadd(values)
+            }
         },
     });
 
@@ -120,6 +144,9 @@ function MedisinesAdmin(props) {
 
     const handleClose = () => {
         setOpen(false);
+        setdOpen(false)
+        setupdate(false)
+        formik.resetForm()
     };
 
     const handleadd = (values) => {
@@ -135,6 +162,8 @@ function MedisinesAdmin(props) {
             localdata.push(data);
             localStorage.setItem("medicines", JSON.stringify(localdata))
         }
+
+        getdata();
 
         setOpen(false);
         formik.resetForm();
