@@ -21,6 +21,7 @@ import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
 import LocalHospitalIcon from '@mui/icons-material/LocalHospital';
 import VaccinesIcon from '@mui/icons-material/Vaccines';
+import MedicationLiquidIcon from '@mui/icons-material/MedicationLiquid';
 
 const drawerWidth = 240;
 
@@ -103,7 +104,8 @@ export default function Layout({children}) {
 
   let dispalylist = [
     {name:'Medisines', icon:<LocalHospitalIcon />, to:'/medisines_admin'},
-  {name:'Doctor', icon:<VaccinesIcon />, to:'/doctors_admin'}
+    {name:'Doctor', icon:<VaccinesIcon />, to:'/doctors_admin'},
+    {name:'Patient', icon:<MedicationLiquidIcon/>, to:'patient_admin'},
 ];
 
   return (

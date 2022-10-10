@@ -13,11 +13,13 @@ import Medicens from './container/Medicens/Medicens';
 import Layout from './admin/components/Layout';
 import MedisinesAdmin from './admin/container/MedisinesAdmin';
 import DoctorAdmin from './admin/container/DoctorAdmin';
+import PatientAdmin from './admin/container/PatientAdmin';
+import ListAppointment from './container/appointment/ListAppointment';
 
 function App() {
   return (
     <>
-      {/* <Header/>
+      <Header/>
       <Switch>
         <Route path={'/home'} exact component={Home} />
         <Route path={'/about'} exact component={About} />
@@ -27,14 +29,16 @@ function App() {
         <Route path={'/contect'} exact component={Contect} />
         <Route path={'/appointment'} exact component={Appointment} />
         <Route path={'/login'} exact component={Auth} />
+        <Route path={'/list_appointment'} exact component={ListAppointment}/>
       </Switch>
-      <Footer/> */}
-      <Layout>
+      <Footer/>
+      {/* <Layout>
         <Switch>
           <Route path={'/medisines_admin'} exact component={MedisinesAdmin} />
           <Route path={'/doctors_admin'} exact component={DoctorAdmin} />
+          <Route path={'/patient_admin'} exect component={PatientAdmin}/>
         </Switch>
-      </Layout>
+      </Layout> */}
     </>
   );
 }
