@@ -1099,6 +1099,15 @@ section {
   border-radius: 50px;
 }
 
+.btn1{
+  background: #fd6034;
+  border: 0;
+  padding: 5px 10px;
+  color: #fff;
+  transition: 0.4s;
+  border-radius: 50px;
+}
+
 .appointment .php-email-form button[type="submit"]:hover {
   background: #1c84e3;
 }
