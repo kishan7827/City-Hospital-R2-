@@ -1770,3 +1770,9 @@ section {
 .main-header {
   height: 138px;
 }
+
+.link-title{
+  text-align: center;
+  padding-bottom: 30px;
+  margin-top: 10px;
+}

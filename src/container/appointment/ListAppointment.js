@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { NavLink, useHistory } from 'react-router-dom';
 import { Card, CardBody, CardText, CardTitle } from 'reactstrap';
 import Button from '@mui/material/Button';
 
 function ListAppointment(props) {
     const [data, setdata] = useState([]);
+    const [nav,setnav] = useState(false)
 
     const history = useHistory()
 
@@ -23,13 +24,39 @@ function ListAppointment(props) {
 
         let data = localData.filter((l) => l.id !== id)
 
-        localStorage.setItem("apt",JSON.stringify(data))
+        localStorage.setItem("apt", JSON.stringify(data))
 
         getData()
     }
 
+    const handleEdit = (data) => {
+        console.log(data);
+
+        history.push("/appointment", data)
+    }
+    // checked={values.gender === 'mail' ? true : false}
+
     return (
         <div className='container'>
+            <div className="section-title">
+                <h2>List of Appointment</h2>
+            </div>
+            {
+                        nav?<div className="col-md-6 link-title mt-3">
+                        <NavLink active to={'/list_Appointment'}>List of Appointment</NavLink>
+                    </div>:
+                        <div className="col-mb-3 link-title">
+                        <NavLink active to={'/appointment'}>Make an Appointment</NavLink>
+                    </div>
+                    }
+            {/* <div className="row">
+                <div className="col-md-6 link-title mt-3 navbar">
+                    <NavLink active to={'/appointment'}>Make an Appointment</NavLink>
+                </div>
+                <div className="col-md-6 link-title mt-3 navbar">
+                    <NavLink active to={'/list_Appointment'}>List of Appointment</NavLink>
+                </div>
+            </div> */}
             <div className='row'>
                 {
                     data.map((d, i) => (
@@ -41,7 +68,7 @@ function ListAppointment(props) {
                                 <CardText>
                                     Gender: {d.gender}
                                 </CardText>
-                                <Button variant="contained" className='me-2' size='small'>Edit</Button>
+                                <Button variant="contained" className='me-2' size='small' onClick={() => handleEdit(d)}>Edit</Button>
                                 <Button variant="contained" color='error' size='small' onClick={() => handleDelete(d.id)}>Delete</Button>
                             </CardBody>
                         </Card>
