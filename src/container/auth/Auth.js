@@ -10,24 +10,7 @@ function Auth(props) {
     const passref = useRef();
     const nameref = useRef();
 
-    const handlogin = () => {
-        console.log(emailref.current.value);
-        console.log(passref.current.value);
-
-        passref.current.focus();
-        passref.current.style.border = '2px solid skyblue';
-    }
-
-    const handsignup = () => {
-        console.log(nameref.current.value);
-        console.log(emailref.current.value);
-        console.log(passref.current.value);
-
-        nameref.current.focus();
-        nameref.current.style.border = '2px solid skyblue'
-    }
-
-    let authschema={}, intval={};
+    let authschema = {}, intval = {};
 
     if (usertype === 'login' && reset === false) {
         authschema = {
@@ -58,13 +41,17 @@ function Auth(props) {
         }
     }
 
+    const handleLogin = () => {
+        localStorage.setItem('login', true)
+    }
+
     let schema = yup.object().shape(authschema);
 
     const formikobj = useFormik({
         initialValues: intval,
         validationSchema: schema,
         onSubmit: values => {
-            alert(JSON.stringify(values, null, 2));
+                handleLogin();
         },
     });
 
@@ -89,7 +76,7 @@ function Auth(props) {
                                     usertype === 'login' ? null : <div className="row">
                                         <div className="col-md-4 form-group">
                                             <input onBlur={handleBlur} onChange={handleChange} ref={nameref} type="text" name="name" className="form-control" id="name" placeholder="Your Name" data-rule="minlen:4" data-msg="Please enter at least 4 chars" />
-                                            <p>{errors.name && touched.name ? errors.name :''}</p>
+                                            <p>{errors.name && touched.name ? errors.name : ''}</p>
                                             <div className="validate" />
                                         </div>
                                     </div>}
@@ -97,7 +84,7 @@ function Auth(props) {
                             <div className="row">
                                 <div className="col-md-4 form-group mt-3 mt-md-0">
                                     <input onBlur={handleBlur} onChange={handleChange} ref={emailref} type="email" className="form-control" name="email" id="email" placeholder="Your Email" data-rule="email" data-msg="Please enter a valid email" />
-                                    <p>{errors.email && touched.email ? errors.email :''}</p>
+                                    <p>{errors.email && touched.email ? errors.email : ''}</p>
                                     <div className="validate" />
                                 </div>
                             </div>
@@ -108,7 +95,7 @@ function Auth(props) {
                                     <div className="row">
                                         <div className="col-md-4 form-group mt-3 mt-md-0">
                                             <input onBlur={handleBlur} onChange={handleChange} ref={passref} type="password" className="form-control" name="password" id="password" placeholder="Password" data-rule="minlen:4" data-msg="Please enter at least 4 chars" />
-                                            <p>{errors.password && touched.password ? errors.password :''}</p>
+                                            <p>{errors.password && touched.password ? errors.password : ''}</p>
                                             <div className="validate" />
                                         </div>
                                     </div>
