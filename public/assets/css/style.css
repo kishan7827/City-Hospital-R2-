@@ -1776,3 +1776,109 @@ section {
   padding-bottom: 30px;
   margin-top: 10px;
 }
+
+/*--------------------------------------------------------------
+# DoctorsDetails
+--------------------------------------------------------------*/
+.d-doctors {
+  background: #fff;
+}
+
+.d-doctors .member {
+  position: relative;
+  box-shadow: 0px 2px 15px rgba(44, 73, 100, 0.08);
+  padding: 30px;
+  border-radius: 10px;
+}
+
+.d-doctors .member .pic {
+  overflow: hidden;
+  width: 100%;
+}
+
+.d-doctors .member .member-info {
+  padding-left: 30px;
+}
+
+.d-doctors .member h4 {
+  font-weight: 700;
+  margin-bottom: 5px;
+  font-size: 20px;
+  color: #2c4964;
+}
+
+.d-doctors .member span {
+  display: block;
+  font-size: 15px;
+  padding-bottom: 10px;
+  position: relative;
+  font-weight: 500;
+}
+
+.d-doctors .member span::after {
+  content: '';
+  position: absolute;
+  display: block;
+  width: 50px;
+  height: 1px;
+  background: #b2c8dd;
+  bottom: 0;
+  left: 0;
+}
+
+.d-doctors .member p {
+  margin: 10px 0 0 0;
+  font-size: 14px;
+}
+
+.d-doctors .member .social {
+  margin-top: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.d-doctors .member .social a {
+  transition: ease-in-out 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50px;
+  width: 32px;
+  height: 32px;
+  background: #a0bcd5;
+}
+
+.d-doctors .member .social a i {
+  color: #fff;
+  font-size: 16px;
+  margin: 0 2px;
+}
+
+.d-doctors .member .social a:hover {
+  background: #FF6337;
+}
+
+.d-doctors .member .social a + a {
+  margin-left: 8px;
+}
+
+.img-d-doctor {
+  max-width: 100%;
+  height: 300px;
+  display: block;
+  margin: auto;
+}
+
+.d-doctors-align{
+  display: flex;
+  align-items: center;
+}
+
+.d-doctors .member .wd {
+  display: block;
+  font-size: 15px;
+  padding-bottom: 0px;
+  position: relative;
+  font-weight: 500;
+}
